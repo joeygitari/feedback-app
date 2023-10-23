@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import FeedbackForm from './components/FeedbackForm';
+import QRCodeScanner from './components/QRScanner';
+import QRCodeGenerator from './components/QRCodeGenerator';
 
-function App() {
+const App = () => {
+  const [showForm, setShowForm] = useState(false);
+  const [feedbackFormUrl, setFeedbackFormUrl] = useState('');
+
+  const handleScan = (data) => {
+    setFeedbackFormUrl(data);
+    setShowForm(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container mt-5">
+      <QRCodeGenerator url={feedbackFormUrl} />
+      {showForm && <FeedbackForm />}
+      {!showForm && <QRCodeScanner onScan={handleScan} />}
     </div>
   );
-}
+};
 
 export default App;
